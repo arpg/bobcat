@@ -136,16 +136,17 @@ class BCActions():
             # Only getting one goal point so have to request a replan if there's a conflict
             gpos = self.agent.exploreGoal.pose.position
             godom = self.agent.odometry.pose.pose.position
+            blacklisted = False
 
             # Global planner should take care of this now, but it's a double check
             for goal in self.blacklist.points:
                 if getDist(gpos, goal) < self.deconflictRadius:
-                    self.blacklistUpdated = True
+                    blacklisted = True
                     self.updateStatus('Replanning Blacklist')
                     rospy.loginfo(self.id + ' replanning due to blacklist')
                     break
 
-            if not self.blacklistUpdated:
+            if not blacklisted:
                 # Check each neighbors' goal for conflict
                 for neighbor in self.neighbors.values():
                     npos = neighbor.goal.pose.pose.position

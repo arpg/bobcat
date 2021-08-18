@@ -356,16 +356,17 @@ class BOBCAT(object):
             pose.header.stamp = rospy.Time(0)
             return self.tf_client.transform(pose, "world", rospy.Duration(1))
         except tf2_ros.LookupException, tf2_ros.ExtrapolationException:
-            return
+            return PoseStamped()
 
     def addPoseToPaths(self, pose, path, cpath):
         # Pose is not mutable so won't be changed.  Path and cpath are changed/returned.
         if pose.header.frame_id != 'world':
             pose = self.transformPose(pose)
-        path.poses.append(pose)
-        cpath.append(10 * pose.pose.position.x)
-        cpath.append(10 * pose.pose.position.y)
-        cpath.append(10 * pose.pose.position.z)
+        if pose:    
+            path.poses.append(pose)
+            cpath.append(10 * pose.pose.position.x)
+            cpath.append(10 * pose.pose.position.y)
+            cpath.append(10 * pose.pose.position.z)
 
     def compressPath(self, path, distance, angle, poseGraph):
         # Subsample a path based on distance/angle, transform to world, and compress

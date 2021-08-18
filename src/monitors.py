@@ -83,7 +83,7 @@ class BCMonitors():
         if self.useSimComms or self.useVirtual:
             self.battery_sub = rospy.Subscriber('battery_state', BatteryState, self.BatterySimMonitor)
         else:
-            self.battery_sub = rospy.Subscriber('base_status', BaseStatus, self.BatteryMonitor)
+            self.battery_sub = rospy.Subscriber('fp_state', BaseStatus, self.BatteryMonitor)
 
     def WaitMonitor(self, data):
         if data.status > 0:
@@ -135,7 +135,7 @@ class BCMonitors():
             self.agent.poseGraphCompressed = self.compressPath(self.agent.poseGraph, self.ssDistancePoseGraph, self.ssAnglePoseGraph, True)
 
     def BatteryMonitor(self, data):
-        self.agent.battery = min(data.vbat)
+        self.agent.battery = min(i for i in data.vbat if i > 0)
 
     def BatterySimMonitor(self, data):
         self.agent.battery = data.voltage
