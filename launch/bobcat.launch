@@ -74,6 +74,8 @@
   <arg name="useVirtual" default="false" />
   <!-- Whether to use an external trajectory follower for fallback planning to home -->
   <arg name="useExtTraj" default="false" />
+  <!-- Whether to use hueristics or random policy for selecting waypoint to go to -->
+  <arg name="randomWayPoints" default="false" />
   <!-- Command to force planner to replan, without blacklisting -->
   <arg name="replanCommand" default="deconflict" />
   <!-- Topic the frontier exploration node listens to to calculate path home -->
@@ -144,6 +146,7 @@
     <param name="useMesh" value="$(arg useMesh)" />
     <param name="useVirtual" value="$(arg useVirtual)" />
     <param name="useExtTraj" value="$(arg useExtTraj)" />
+    <param name="randomWayPoints" value="$(arg randomWayPoints)" />
     <param name="replanCommand" value="$(arg replanCommand)" />
     <param name="homeTopic" value="$(arg homeTopic)" />
     <param name="stopTopic" value="$(arg stopTopic)" />

@@ -11,6 +11,7 @@
   <arg name="reverseDrop" default="true" />
   <arg name="mappingRange" default="1000" />
   <arg name="useExtTraj" default="false" />
+  <arg name="randomWayPoints" default="false" />
 
   <include file="$(find bobcat)/launch/bobcat.launch">
     <arg name="vehicle" value="$(arg vehicle)" />
@@ -25,5 +26,6 @@
     <arg name="reverseDrop" value="$(arg reverseDrop)" />
     <arg name="mappingRange" value="$(arg mappingRange)" />
     <arg name="useExtTraj" value="$(arg useExtTraj)" />
+    <arg name="randomWayPoints" value="$(arg randomWayPoints)" />
   </include>
 </launch>

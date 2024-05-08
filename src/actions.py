@@ -3,6 +3,7 @@ from __future__ import print_function
 import math
 import copy
 import rospy
+import random
 
 from std_msgs.msg import Empty
 from std_msgs.msg import Bool
@@ -50,6 +51,7 @@ class BCActions():
         self.replanCommand = rospy.get_param('bobcat/replanCommand', 'deconflict')
         self.singleGoalDeconflict = rospy.get_param('bobcat/singleGoalDeconflict', False)
         self.useExtTraj = rospy.get_param('bobcat/useExtTraj', False)
+        self.randomWayPoints = rospy.get_param('bobcat/randomWayPoints', False)
 
         self.status_pub = rospy.Publisher('bobcat_status', BobcatStatus, latch=True, queue_size=1)
         self.task_pub = rospy.Publisher('task', String, queue_size=10, latch=True)
@@ -323,6 +325,9 @@ class BCActions():
             # Set the goal to the frontier goal
             # This should cause us to navigate to the goal, then go home if still no plan
             self.updateGoalPath()
+        elif self.randomWayPoints:
+            # If random way points is True grab any of the goals in list
+            self.agent.goal = random.choice(goals)
         elif len(goals) == 1:
             # If we only have one potential goal, just go there
             # May want to consider stopping in place if there is a conflict!
